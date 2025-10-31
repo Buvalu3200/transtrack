@@ -31,6 +31,10 @@
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
         }
 
         h1 {
@@ -42,6 +46,40 @@
         .subtitle {
             color: #666;
             font-size: 14px;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .nav-tab {
+            background: #f8f9fa;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            color: #667eea;
+        }
+
+        .nav-tab:hover {
+            background: #e9ecef;
+        }
+
+        .nav-tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
         }
 
         .main-grid {
@@ -100,10 +138,6 @@
             box-shadow: 0 7px 20px rgba(0,0,0,0.3);
         }
 
-        .voice-btn:active {
-            transform: scale(0.95);
-        }
-
         .voice-btn.listening {
             background: #ff4757;
             color: white;
@@ -113,12 +147,6 @@
         @keyframes pulse {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.05); }
-        }
-
-        .status-text {
-            margin-top: 10px;
-            font-size: 14px;
-            min-height: 20px;
         }
 
         .stats {
@@ -157,9 +185,6 @@
             padding: 12px;
             border-radius: 8px;
             margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             border-left: 4px solid #28a745;
         }
 
@@ -167,18 +192,8 @@
             border-left-color: #ffc107;
         }
 
-        .vehicle-item.danger {
+        .vehicle-item.alert {
             border-left-color: #dc3545;
-        }
-
-        .vehicle-info h4 {
-            font-size: 14px;
-            margin-bottom: 5px;
-        }
-
-        .vehicle-info p {
-            font-size: 12px;
-            color: #666;
         }
 
         .status-badge {
@@ -203,36 +218,6 @@
             color: #721c24;
         }
 
-        .legend {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-
-        .legend h3 {
-            margin-bottom: 15px;
-            color: #667eea;
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .legend-color {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
-
-        .legend-color.green { background: #28a745; }
-        .legend-color.yellow { background: #ffc107; }
-        .legend-color.red { background: #dc3545; }
-        .legend-color.gray { background: #6c757d; }
-
         .control-btn {
             background: #667eea;
             color: white;
@@ -247,21 +232,6 @@
 
         .control-btn:hover {
             background: #764ba2;
-            transform: translateY(-2px);
-        }
-
-        .control-btn:active {
-            transform: scale(0.95);
-        }
-
-        @media (max-width: 968px) {
-            .main-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .map-container {
-                height: 400px;
-            }
         }
 
         .response-box {
@@ -272,312 +242,446 @@
             min-height: 40px;
             font-style: italic;
         }
+
+        .admin-section {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            background: #f8f9fa;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .btn-edit {
+            background: #ffc107;
+            color: #000;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+
+        .btn-delete {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        @media (max-width: 968px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>🚛 TransTrack</h1>
-            <p class="subtitle">Sistema Inteligente de Gestión y Monitoreo de Flotas en Tiempo Real</p>
+            <div>
+                <h1>🚛 TransTrack</h1>
+                <p class="subtitle">Sistema Inteligente de Gestión y Monitoreo de Flotas</p>
+            </div>
+            <div class="nav-tabs">
+                <button class="nav-tab active" onclick="showSection('monitor')">📍 Monitoreo</button>
+                <button class="nav-tab" onclick="showSection('admin')">⚙️ Administración</button>
+            </div>
         </header>
 
-        <div class="main-grid">
-            <div class="map-container">
-                <div id="map"></div>
-            </div>
-
-            <div class="control-panel">
-                <div class="voice-assistant">
-                    <h3>🎤 Asistente de Voz</h3>
-                    <p style="font-size: 13px; margin: 10px 0;">Di comandos como: "estado de flota", "vehículos activos", "alertas", "ayuda"</p>
-                    <button class="voice-btn" id="voiceBtn">🎙️ Activar Voz</button>
-                    <div class="status-text" id="statusText"></div>
-                    <div class="response-box" id="responseBox"></div>
+        <div id="monitor-section" class="section active">
+            <div class="main-grid">
+                <div class="map-container">
+                    <div id="map"></div>
                 </div>
 
-                <div class="stats">
-                    <div class="stat-card">
-                        <div class="stat-number" id="activeVehicles">0</div>
-                        <div class="stat-label">Vehículos Activos</div>
+                <div class="control-panel">
+                    <div class="voice-assistant">
+                        <h3>🎤 Asistente de Voz</h3>
+                        <button class="voice-btn" id="voiceBtn">🎙️ Activar Voz</button>
+                        <div id="statusText" style="margin-top:10px; font-size:13px;"></div>
+                        <div class="response-box" id="responseBox"></div>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-number" id="totalAlerts">0</div>
-                        <div class="stat-label">Alertas Abiertas</div>
+
+                    <div class="stats">
+                        <div class="stat-card">
+                            <div class="stat-number" id="activeVehicles">0</div>
+                            <div class="stat-label">Vehículos Activos</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="totalAlerts">0</div>
+                            <div class="stat-label">Alertas Abiertas</div>
+                        </div>
                     </div>
-                </div>
 
-                <h3 style="margin-bottom: 10px; color: #667eea;">Estado de Vehículos</h3>
-                <div class="vehicles-list" id="vehiclesList"></div>
+                    <h3 style="margin-bottom: 10px; color: #667eea;">Vehículos</h3>
+                    <div class="vehicles-list" id="vehiclesList"></div>
 
-                <div style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 10px;">
-                    <h4 style="margin-bottom: 10px; color: #667eea;">🎮 Panel de Control</h4>
-                    <button class="control-btn" onclick="changeVehicleStatus()">Cambiar Estado Aleatorio</button>
-                    <button class="control-btn" onclick="simulateAlert()">Simular Alerta</button>
-                    <button class="control-btn" onclick="centerMap()">Centrar Mapa</button>
+                    <div style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 10px;">
+                        <h4 style="margin-bottom: 10px;">🎮 Controles</h4>
+                        <button class="control-btn" onclick="simulateAlert()">Simular Alerta</button>
+                        <button class="control-btn" onclick="centerMap()">Centrar Mapa</button>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="legend">
-            <h3>Leyenda de Estados</h3>
-            <div class="legend-item">
-                <div class="legend-color green"></div>
-                <span>Verde: Operativo (en ruta normal)</span>
+        <div id="admin-section" class="section">
+            <div class="admin-section">
+                <div class="admin-header">
+                    <h2>🚗 Gestión de Vehículos</h2>
+                    <button class="btn-primary" onclick="openModal()">➕ Agregar</button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Placa</th>
+                            <th>Conductor</th>
+                            <th>Estado</th>
+                            <th>Velocidad</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
             </div>
-            <div class="legend-item">
-                <div class="legend-color yellow"></div>
-                <span>Amarillo: Detenido (+15 min)</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-color red"></div>
-                <span>Rojo: Incidente o exceso de velocidad</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-color gray"></div>
-                <span>Gris: Sin señal GPS (+30 min)</span>
-            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="vehicleModal">
+        <div class="modal-content">
+            <h2 id="modalTitle">Agregar Vehículo</h2>
+            <form id="vehicleForm" onsubmit="saveVehicle(event)">
+                <input type="hidden" id="vehicleId">
+                
+                <div class="form-group">
+                    <label>Placa</label>
+                    <input type="text" id="plate" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Conductor</label>
+                    <input type="text" id="driver" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Estado</label>
+                    <select id="status">
+                        <option value="active">Operativo</option>
+                        <option value="warning">Detenido</option>
+                        <option value="alert">Alerta</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Velocidad (km/h)</label>
+                    <input type="number" id="speed" min="0" max="120" value="40">
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="closeModal()">Cancelar</button>
+                    <button type="submit" class="btn-primary">Guardar</button>
+                </div>
+            </form>
         </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
     <script>
-        // Datos simulados de vehículos en Cali, Colombia
-        const vehicles = [
+        let vehicles = [
             { id: 1, plate: 'ABC-123', driver: 'Carlos Pérez', status: 'active', lat: 3.4516, lon: -76.5320, speed: 45 },
             { id: 2, plate: 'DEF-456', driver: 'María González', status: 'warning', lat: 3.4372, lon: -76.5225, speed: 0 },
             { id: 3, plate: 'GHI-789', driver: 'Juan Rodríguez', status: 'alert', lat: 3.4210, lon: -76.5500, speed: 85 },
-            { id: 4, plate: 'JKL-012', driver: 'Ana Martínez', status: 'active', lat: 3.4650, lon: -76.5150, speed: 50 },
-            { id: 5, plate: 'MNO-345', driver: 'Pedro López', status: 'active', lat: 3.4400, lon: -76.5400, speed: 40 }
+            { id: 4, plate: 'JKL-012', driver: 'Ana Martínez', status: 'active', lat: 3.4650, lon: -76.5150, speed: 50 }
         ];
 
-        // Inicializar mapa
-        const map = L.map('map').setView([3.4516, -76.5320], 13);
-        
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
-        }).addTo(map);
+        let nextId = 5;
+        let map;
+        const markers = {};
 
-        // Función para obtener icono según estado
+        function initMap() {
+            map = L.map('map').setView([3.4516, -76.5320], 13);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap'
+            }).addTo(map);
+            updateMap();
+        }
+
         function getMarkerIcon(status) {
-            const colors = {
-                active: '#28a745',
-                warning: '#ffc107',
-                alert: '#dc3545',
-                offline: '#6c757d'
-            };
-            
+            const colors = { active: '#28a745', warning: '#ffc107', alert: '#dc3545' };
             return L.divIcon({
-                html: `<div style="background: ${colors[status]}; width: 30px; height: 30px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 10px rgba(0,0,0,0.3);"></div>`,
+                html: `<div style="background: ${colors[status]}; width: 30px; height: 30px; border-radius: 50%; border: 3px solid white;"></div>`,
                 className: '',
                 iconSize: [30, 30]
             });
         }
 
-        // Objeto para almacenar los marcadores
-        const markers = {};
+        function updateMap() {
+            Object.values(markers).forEach(m => map.removeLayer(m));
+            vehicles.forEach(v => {
+                const marker = L.marker([v.lat, v.lon], { icon: getMarkerIcon(v.status) }).addTo(map);
+                marker.bindPopup(`<b>${v.plate}</b><br>${v.driver}<br>${v.speed} km/h`);
+                markers[v.id] = marker;
+            });
+        }
 
-        // Agregar marcadores al mapa
-        vehicles.forEach(vehicle => {
-            const marker = L.marker([vehicle.lat, vehicle.lon], {
-                icon: getMarkerIcon(vehicle.status)
-            }).addTo(map);
-            
-            marker.bindPopup(`
-                <b>${vehicle.plate}</b><br>
-                Conductor: ${vehicle.driver}<br>
-                Velocidad: ${vehicle.speed} km/h
-            `);
-            
-            markers[vehicle.id] = marker;
-        });
-
-        // Actualizar lista de vehículos
         function updateVehiclesList() {
             const list = document.getElementById('vehiclesList');
-            list.innerHTML = vehicles.map(v => {
-                const statusClass = v.status === 'active' ? 'active' : v.status === 'warning' ? 'warning' : 'alert';
-                const statusText = v.status === 'active' ? 'Operativo' : v.status === 'warning' ? 'Detenido' : 'Incidente';
-                
-                return `
-                    <div class="vehicle-item ${v.status}">
-                        <div class="vehicle-info">
-                            <h4>${v.plate}</h4>
-                            <p>${v.driver} • ${v.speed} km/h</p>
-                        </div>
-                        <span class="status-badge ${statusClass}">${statusText}</span>
-                    </div>
-                `;
-            }).join('');
+            list.innerHTML = vehicles.map(v => `
+                <div class="vehicle-item ${v.status}">
+                    <div><strong>${v.plate}</strong><br><small>${v.driver} • ${v.speed} km/h</small></div>
+                    <span class="status-badge ${v.status}">${v.status === 'active' ? 'OK' : v.status === 'warning' ? 'Detenido' : 'Alerta'}</span>
+                </div>
+            `).join('');
         }
 
-        // Actualizar estadísticas
         function updateStats() {
-            const activeCount = vehicles.filter(v => v.status === 'active').length;
-            const alertCount = vehicles.filter(v => v.status !== 'active').length;
-            
-            document.getElementById('activeVehicles').textContent = activeCount;
-            document.getElementById('totalAlerts').textContent = alertCount;
+            document.getElementById('activeVehicles').textContent = vehicles.filter(v => v.status === 'active').length;
+            document.getElementById('totalAlerts').textContent = vehicles.filter(v => v.status === 'alert').length;
         }
 
-        updateVehiclesList();
-        updateStats();
-
-        // Asistente de Voz
-        const voiceBtn = document.getElementById('voiceBtn');
-        const statusText = document.getElementById('statusText');
-        const responseBox = document.getElementById('responseBox');
-        let recognition;
-        let isListening = false;
-
-        // Verificar soporte de Web Speech API
-        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            recognition = new SpeechRecognition();
-            recognition.lang = 'es-ES';
-            recognition.continuous = false;
-            recognition.interimResults = false;
-
-            recognition.onstart = () => {
-                isListening = true;
-                voiceBtn.classList.add('listening');
-                voiceBtn.textContent = '🔴 Escuchando...';
-                statusText.textContent = 'Hable ahora...';
-                responseBox.textContent = '';
-            };
-
-            recognition.onend = () => {
-                isListening = false;
-                voiceBtn.classList.remove('listening');
-                voiceBtn.textContent = '🎙️ Activar Voz';
-                statusText.textContent = '';
-            };
-
-            recognition.onresult = (event) => {
-                const transcript = event.results[0][0].transcript.toLowerCase();
-                processCommand(transcript);
-            };
-
-            recognition.onerror = (event) => {
-                console.error('Error de reconocimiento:', event.error);
-                statusText.textContent = 'Error: ' + event.error;
-                responseBox.textContent = 'No pude entender. Intenta de nuevo.';
-            };
-        } else {
-            voiceBtn.disabled = true;
-            statusText.textContent = 'Tu navegador no soporta reconocimiento de voz';
+        function updateTable() {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = vehicles.map(v => `
+                <tr>
+                    <td><strong>${v.plate}</strong></td>
+                    <td>${v.driver}</td>
+                    <td><span class="status-badge ${v.status}">${v.status === 'active' ? 'OK' : v.status === 'warning' ? 'Detenido' : 'Alerta'}</span></td>
+                    <td>${v.speed} km/h</td>
+                    <td>
+                        <button class="btn-edit" onclick="editVehicle(${v.id})">✏️</button>
+                        <button class="btn-delete" onclick="deleteVehicle(${v.id})">🗑️</button>
+                    </td>
+                </tr>
+            `).join('');
         }
 
-        voiceBtn.addEventListener('click', () => {
-            if (!isListening && recognition) {
-                recognition.start();
-            }
-        });
+        function showSection(section) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            document.getElementById(`${section}-section`).classList.add('active');
+            event.target.classList.add('active');
+            if (section === 'admin') updateTable();
+        }
 
-        // Procesar comandos de voz
-        function processCommand(command) {
-            let response = '';
+        function openModal(vehicleId = null) {
+            const modal = document.getElementById('vehicleModal');
+            const form = document.getElementById('vehicleForm');
+            form.reset();
             
-            if (command.includes('estado') || command.includes('flota')) {
-                const active = vehicles.filter(v => v.status === 'active').length;
-                response = `Actualmente hay ${active} vehículos operativos de un total de ${vehicles.length}.`;
-            } else if (command.includes('activo') || command.includes('operativo')) {
-                const active = vehicles.filter(v => v.status === 'active');
-                response = `Vehículos activos: ${active.map(v => v.plate).join(', ')}.`;
-            } else if (command.includes('alerta') || command.includes('incidente')) {
-                const alerts = vehicles.filter(v => v.status === 'alert');
-                response = alerts.length > 0 
-                    ? `Hay ${alerts.length} alertas: ${alerts.map(v => v.plate).join(', ')}.`
-                    : 'No hay alertas activas en este momento.';
-            } else if (command.includes('ayuda')) {
-                response = 'Puedes preguntar por: estado de flota, vehículos activos, alertas, o información de un vehículo específico.';
+            if (vehicleId) {
+                const v = vehicles.find(x => x.id === vehicleId);
+                document.getElementById('modalTitle').textContent = 'Editar Vehículo';
+                document.getElementById('vehicleId').value = v.id;
+                document.getElementById('plate').value = v.plate;
+                document.getElementById('driver').value = v.driver;
+                document.getElementById('status').value = v.status;
+                document.getElementById('speed').value = v.speed;
             } else {
-                response = 'No entendí el comando. Di "ayuda" para ver opciones.';
+                document.getElementById('modalTitle').textContent = 'Agregar Vehículo';
             }
-            
-            responseBox.textContent = response;
-            speak(response);
+            modal.classList.add('active');
         }
 
-        // Síntesis de voz
+        function closeModal() {
+            document.getElementById('vehicleModal').classList.remove('active');
+        }
+
+        function saveVehicle(e) {
+            e.preventDefault();
+            const id = document.getElementById('vehicleId').value;
+            const data = {
+                plate: document.getElementById('plate').value,
+                driver: document.getElementById('driver').value,
+                status: document.getElementById('status').value,
+                speed: parseInt(document.getElementById('speed').value),
+                lat: 3.4516 + (Math.random() - 0.5) * 0.05,
+                lon: -76.5320 + (Math.random() - 0.5) * 0.05
+            };
+            
+            if (id) {
+                const index = vehicles.findIndex(v => v.id === parseInt(id));
+                vehicles[index] = { ...vehicles[index], ...data };
+            } else {
+                vehicles.push({ id: nextId++, ...data });
+            }
+            
+            updateAll();
+            closeModal();
+        }
+
+        function editVehicle(id) {
+            openModal(id);
+        }
+
+        function deleteVehicle(id) {
+            const v = vehicles.find(x => x.id === id);
+            if (confirm(`¿Eliminar ${v.plate}?`)) {
+                vehicles = vehicles.filter(x => x.id !== id);
+                updateAll();
+            }
+        }
+
+        function simulateAlert() {
+            const v = vehicles[Math.floor(Math.random() * vehicles.length)];
+            v.status = 'alert';
+            v.speed = 90;
+            updateAll();
+            speak(`Alerta en vehículo ${v.plate}`);
+        }
+
+        function centerMap() {
+            const avgLat = vehicles.reduce((s, v) => s + v.lat, 0) / vehicles.length;
+            const avgLon = vehicles.reduce((s, v) => s + v.lon, 0) / vehicles.length;
+            map.setView([avgLat, avgLon], 13);
+        }
+
+        function updateAll() {
+            updateMap();
+            updateVehiclesList();
+            updateStats();
+            updateTable();
+        }
+
         function speak(text) {
+            document.getElementById('responseBox').textContent = text;
             if ('speechSynthesis' in window) {
                 const utterance = new SpeechSynthesisUtterance(text);
                 utterance.lang = 'es-ES';
-                utterance.rate = 0.9;
                 speechSynthesis.speak(utterance);
             }
         }
 
-        // Simulación de actualización en tiempo real (cada 3 segundos)
+        // Voz
+        const voiceBtn = document.getElementById('voiceBtn');
+        if ('webkitSpeechRecognition' in window) {
+            const recognition = new webkitSpeechRecognition();
+            recognition.lang = 'es-ES';
+            recognition.onresult = (e) => {
+                const cmd = e.results[0][0].transcript.toLowerCase();
+                if (cmd.includes('estado')) {
+                    speak(`Hay ${vehicles.filter(v => v.status === 'active').length} vehículos operativos`);
+                } else if (cmd.includes('alerta')) {
+                    speak(`Hay ${vehicles.filter(v => v.status === 'alert').length} alertas activas`);
+                } else {
+                    speak('No entendí el comando');
+                }
+            };
+            voiceBtn.onclick = () => recognition.start();
+        }
+
+        // Movimiento
         setInterval(() => {
             vehicles.forEach(v => {
-                // Movimiento más notable de vehículos
-                const movement = 0.003; // Movimiento más grande y visible
-                
                 if (v.status === 'active') {
-                    // Vehículos activos se mueven más
-                    v.lat += (Math.random() - 0.5) * movement;
-                    v.lon += (Math.random() - 0.5) * movement;
+                    v.lat += (Math.random() - 0.5) * 0.003;
+                    v.lon += (Math.random() - 0.5) * 0.003;
                     v.speed = 40 + Math.floor(Math.random() * 30);
-                } else if (v.status === 'warning') {
-                    // Vehículos detenidos no se mueven
-                    v.speed = 0;
-                } else if (v.status === 'alert') {
-                    // Vehículos con alerta se mueven erráticamente
-                    v.lat += (Math.random() - 0.5) * movement * 1.5;
-                    v.lon += (Math.random() - 0.5) * movement * 1.5;
-                    v.speed = 80 + Math.floor(Math.random() * 20);
-                }
-                
-                // Actualizar marcador en el mapa
-                if (markers[v.id]) {
-                    markers[v.id].setLatLng([v.lat, v.lon]);
-                    markers[v.id].setIcon(getMarkerIcon(v.status));
-                    markers[v.id].setPopupContent(`
-                        <b>${v.plate}</b><br>
-                        Conductor: ${v.driver}<br>
-                        Velocidad: ${v.speed} km/h<br>
-                        Estado: ${v.status === 'active' ? 'Operativo' : v.status === 'warning' ? 'Detenido' : 'Alerta'}
-                    `);
                 }
             });
-            
+            updateMap();
             updateVehiclesList();
-            updateStats();
-        }, 3000); // Actualizar cada 3 segundos para ver el movimiento
+        }, 3000);
 
-        // Funciones de control para pruebas
-        function changeVehicleStatus() {
-            const randomVehicle = vehicles[Math.floor(Math.random() * vehicles.length)];
-            const statuses = ['active', 'warning', 'alert'];
-            const newStatus = statuses[Math.floor(Math.random() * statuses.length)];
-            randomVehicle.status = newStatus;
-            
-            updateVehiclesList();
-            updateStats();
-            
-            speak(`El vehículo ${randomVehicle.plate} cambió a estado ${newStatus === 'active' ? 'operativo' : newStatus === 'warning' ? 'detenido' : 'alerta'}`);
-        }
-
-        function simulateAlert() {
-            const randomVehicle = vehicles[Math.floor(Math.random() * vehicles.length)];
-            randomVehicle.status = 'alert';
-            randomVehicle.speed = 90;
-            
-            updateVehiclesList();
-            updateStats();
-            
-            const alertMsg = `¡Alerta! El vehículo ${randomVehicle.plate} reporta un incidente`;
-            responseBox.textContent = alertMsg;
-            speak(alertMsg);
-        }
-
-        function centerMap() {
-            const avgLat = vehicles.reduce((sum, v) => sum + v.lat, 0) / vehicles.length;
-            const avgLon = vehicles.reduce((sum, v) => sum + v.lon, 0) / vehicles.length;
-            map.setView([avgLat, avgLon], 13);
-            speak('Mapa centrado en la flota');
-        }
+        // Iniciar
+        window.onload = () => {
+            initMap();
+            updateAll();
+        };
     </script>
 </body>
 </html>
