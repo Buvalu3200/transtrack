@@ -233,6 +233,27 @@
         .legend-color.red { background: #dc3545; }
         .legend-color.gray { background: #6c757d; }
 
+        .control-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 12px;
+            cursor: pointer;
+            margin: 5px 5px 5px 0;
+            transition: all 0.3s;
+        }
+
+        .control-btn:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+
+        .control-btn:active {
+            transform: scale(0.95);
+        }
+
         @media (max-width: 968px) {
             .main-grid {
                 grid-template-columns: 1fr;
@@ -287,6 +308,13 @@
 
                 <h3 style="margin-bottom: 10px; color: #667eea;">Estado de Vehículos</h3>
                 <div class="vehicles-list" id="vehiclesList"></div>
+
+                <div style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 10px;">
+                    <h4 style="margin-bottom: 10px; color: #667eea;">🎮 Panel de Control</h4>
+                    <button class="control-btn" onclick="changeVehicleStatus()">Cambiar Estado Aleatorio</button>
+                    <button class="control-btn" onclick="simulateAlert()">Simular Alerta</button>
+                    <button class="control-btn" onclick="centerMap()">Centrar Mapa</button>
+                </div>
             </div>
         </div>
 
@@ -345,6 +373,9 @@
             });
         }
 
+        // Objeto para almacenar los marcadores
+        const markers = {};
+
         // Agregar marcadores al mapa
         vehicles.forEach(vehicle => {
             const marker = L.marker([vehicle.lat, vehicle.lon], {
@@ -356,6 +387,8 @@
                 Conductor: ${vehicle.driver}<br>
                 Velocidad: ${vehicle.speed} km/h
             `);
+            
+            markers[vehicle.id] = marker;
         });
 
         // Actualizar lista de vehículos
@@ -475,15 +508,76 @@
             }
         }
 
-        // Simulación de actualización en tiempo real
+        // Simulación de actualización en tiempo real (cada 3 segundos)
         setInterval(() => {
             vehicles.forEach(v => {
-                // Simular cambio de posición
-                v.lat += (Math.random() - 0.5) * 0.001;
-                v.lon += (Math.random() - 0.5) * 0.001;
+                // Movimiento más notable de vehículos
+                const movement = 0.003; // Movimiento más grande y visible
+                
+                if (v.status === 'active') {
+                    // Vehículos activos se mueven más
+                    v.lat += (Math.random() - 0.5) * movement;
+                    v.lon += (Math.random() - 0.5) * movement;
+                    v.speed = 40 + Math.floor(Math.random() * 30);
+                } else if (v.status === 'warning') {
+                    // Vehículos detenidos no se mueven
+                    v.speed = 0;
+                } else if (v.status === 'alert') {
+                    // Vehículos con alerta se mueven erráticamente
+                    v.lat += (Math.random() - 0.5) * movement * 1.5;
+                    v.lon += (Math.random() - 0.5) * movement * 1.5;
+                    v.speed = 80 + Math.floor(Math.random() * 20);
+                }
+                
+                // Actualizar marcador en el mapa
+                if (markers[v.id]) {
+                    markers[v.id].setLatLng([v.lat, v.lon]);
+                    markers[v.id].setIcon(getMarkerIcon(v.status));
+                    markers[v.id].setPopupContent(`
+                        <b>${v.plate}</b><br>
+                        Conductor: ${v.driver}<br>
+                        Velocidad: ${v.speed} km/h<br>
+                        Estado: ${v.status === 'active' ? 'Operativo' : v.status === 'warning' ? 'Detenido' : 'Alerta'}
+                    `);
+                }
             });
+            
             updateVehiclesList();
-        }, 15000);
+            updateStats();
+        }, 3000); // Actualizar cada 3 segundos para ver el movimiento
+
+        // Funciones de control para pruebas
+        function changeVehicleStatus() {
+            const randomVehicle = vehicles[Math.floor(Math.random() * vehicles.length)];
+            const statuses = ['active', 'warning', 'alert'];
+            const newStatus = statuses[Math.floor(Math.random() * statuses.length)];
+            randomVehicle.status = newStatus;
+            
+            updateVehiclesList();
+            updateStats();
+            
+            speak(`El vehículo ${randomVehicle.plate} cambió a estado ${newStatus === 'active' ? 'operativo' : newStatus === 'warning' ? 'detenido' : 'alerta'}`);
+        }
+
+        function simulateAlert() {
+            const randomVehicle = vehicles[Math.floor(Math.random() * vehicles.length)];
+            randomVehicle.status = 'alert';
+            randomVehicle.speed = 90;
+            
+            updateVehiclesList();
+            updateStats();
+            
+            const alertMsg = `¡Alerta! El vehículo ${randomVehicle.plate} reporta un incidente`;
+            responseBox.textContent = alertMsg;
+            speak(alertMsg);
+        }
+
+        function centerMap() {
+            const avgLat = vehicles.reduce((sum, v) => sum + v.lat, 0) / vehicles.length;
+            const avgLon = vehicles.reduce((sum, v) => sum + v.lon, 0) / vehicles.length;
+            map.setView([avgLat, avgLon], 13);
+            speak('Mapa centrado en la flota');
+        }
     </script>
 </body>
 </html>
